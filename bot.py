@@ -1,6 +1,11 @@
 import discord
 from discord.ext import commands
-from hikari import Intents
+import json
+import random
+import os
+
+with open('setting.json', 'r', encoding='utf8') as jfile:
+    jdata = json.load(jfile)
 
 
 Intents = discord.Intents.default()
@@ -12,18 +17,38 @@ bot=commands.Bot(command_prefix='[', intents = Intents)
 async def on_ready():
     print("bot is online")
  
+
 @bot.event
 async def on_member_join(member):
-    channel = bot.get_channel(1000666712506650627)
+    channel = bot.get_channel(int(jdata['channel']))
     await channel.send(f'{member} join!') 
    
 @bot.event
 async def on_member_remove(member):
-    channel = bot.get_channel(1000666712506650627)
+    channel = bot.get_channel(int(jdata['channel']))
     await channel.send(f'{member} leave!')
     
 @bot.command()
-async def ping(ctx):
-    await ctx.send(f'{round(bot.latency*1000)} (ms)')
+async def load(ctx, extension):
+    bot.load_extension(f'cmds.{extension}')
+    await ctx.send(f'已加載 {extension}')
+    
+@bot.command()
+async def unload(ctx, extension):
+    bot.unload_extension(f'cmds.{extension}')
+    await ctx.send(f'unloaded {extension}')
+    
+@bot.command()
+async def reload(ctx, extension):
+    bot.reload_extension(f'cmds.{extension}')
+    await ctx.send(f'已重新加載加載 {extension}')
+    
+for Filename in os.listdir('./cmds'):
+    if Filename.endswith('.py'):
+       bot.load_extension(F'cmds.{Filename[:-3]}')
 
-bot.run('MTAwMDY2ODcwODE2NDg4MjUyMg.G6zyxL.XpEGQoS4-5pcyoyvz94t4kqoFxvGf-XrWZUgtE')
+
+if __name__ == "__main__":
+
+#need to set up a json file call setting.json and import your TOKEN like mine
+ bot.run(jdata['TOKEN'])
