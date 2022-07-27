@@ -17,7 +17,11 @@ class React(Cog_Extension):
     
  @commands.command()
  async def 消失 (selF, ctx):
-    await ctx.send('https://giphy.com/explore/caj')
+    await ctx.send('https://memeprod.ap-south-1.linodeobjects.com/user-gif-thumbnail/cba385f44a593a51169e988c8a596f6d.gif')
+    
+ @commands.command()
+ async def 屁眼 (selF, ctx):
+     await ctx.send('https://media.giphy.com/media/COYzLDNnLFlO7J9IXA/giphy.gif')
   
 def setup(bot):
     bot.add_cog(React(bot))

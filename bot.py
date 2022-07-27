@@ -18,16 +18,7 @@ async def on_ready():
     print("bot is online")
  
 
-@bot.event
-async def on_member_join(member):
-    channel = bot.get_channel(int(jdata['channel']))
-    await channel.send(f'{member} join!') 
-   
-@bot.event
-async def on_member_remove(member):
-    channel = bot.get_channel(int(jdata['channel']))
-    await channel.send(f'{member} leave!')
-    
+
 @bot.command()
 async def load(ctx, extension):
     bot.load_extension(f'cmds.{extension}')
